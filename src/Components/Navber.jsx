@@ -1,7 +1,13 @@
-import React from "react";
+import React, { useContext } from "react";
 import { Link, NavLink } from "react-router-dom";
+import AuthContext from "../Contexts/AuthContext";
+import { toast } from "react-toastify";
+import Loading from "./Loading";
 
 const Navber = () => {
+  const { setUser, user, logOutFunc, loading } = useContext(AuthContext);
+  console.log(user);
+
   const links = (
     <>
       <li>
@@ -21,6 +27,16 @@ const Navber = () => {
       </li>
     </>
   );
+
+  const logOutUserHandle = () => {
+    logOutFunc()
+      .then(() => {
+        toast.success("logOut successfull");
+        setUser(null);
+      })
+      .catch((err) => console.log(err));
+  };
+
   return (
     <div className=" bg-base-100">
       <div className=" w-11/12 mx-auto navbar ">
@@ -61,7 +77,17 @@ const Navber = () => {
           <ul className="menu menu-horizontal px-1">{links}</ul>
         </div>
         <div className="navbar-end">
-          <a className="btn">Register</a>
+          {loading ? (
+            <Loading />
+          ) : user ? (
+            <button onClick={logOutUserHandle} className="btn">
+              LogOut
+            </button>
+          ) : (
+            <Link to="login" className="btn">
+              Login
+            </Link>
+          )}
         </div>
       </div>
     </div>

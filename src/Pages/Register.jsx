@@ -1,50 +1,85 @@
-import React from "react";
-import BGimage from "../assets/loginBG.svg";
+import React, { useContext } from "react";
 import { Link } from "react-router-dom";
+import AuthContext from "../Contexts/AuthContext";
+import { toast } from "react-toastify";
 
 const Register = () => {
+  const { registerWithEmailPass, userWithGoogle, setUser, setLoading } =
+    useContext(AuthContext);
+
+  const handleNewUser = (e) => {
+    e.preventDefault();
+    const form = e.target;
+    const name = form.name.value;
+    const photoURL = form.photoURL.value;
+    const email = form.email.value;
+    const password = form.password.value;
+    registerWithEmailPass(email, password)
+      .then((data) => {
+        console.log(data);
+        setUser(data.user);
+        setLoading(false);
+        toast.success("register successfull !");
+      })
+      .catch((err) => {
+        console.log(err);
+        toast.error(err.message);
+      });
+  };
+
+  const handleGoogleUser = () => {
+    userWithGoogle().then((data) => {
+      console.log(data.user);
+      setUser(data.user);
+      setLoading(false);
+      toast.success("register successfull !");
+    });
+  };
+
   return (
     <div>
       <div className="hero bg-base-200 min-h-screen">
         <div className="card bg-base-100 w-full max-w-sm shrink-0 shadow-2xl">
           <div className="card-body">
             <h2 className="text-center font-semibold text-xl">Register Now</h2>
-            <fieldset className="fieldset">
-              {/* Name Fild  */}
-              <label className="label">Your Name</label>
-              <input
-                type="text"
-                name="name"
-                className="input"
-                placeholder="Your Name..."
-              />
-              {/* Photo URL  */}
-              <label className="label">Photo URL</label>
-              <input
-                type="text"
-                name="photoURL"
-                className="input"
-                placeholder="Photo URL..."
-              />
-              {/* Email  */}
-              <label className="label">Your Email</label>
-              <input
-                type="email"
-                name="email"
-                className="input"
-                placeholder="Your Email..."
-              />
-              {/* Password  */}
-              <label className="label">Password</label>
-              <input
-                type="password"
-                name="password"
-                className="input"
-                placeholder="******"
-              />
+            <form onSubmit={handleNewUser}>
+              <fieldset className="fieldset">
+                {/* Name Fild  */}
+                <label className="label">Your Name</label>
+                <input
+                  type="text"
+                  name="name"
+                  className="input"
+                  placeholder="Your Name..."
+                />
+                {/* Photo URL  */}
+                <label className="label">Photo URL</label>
+                <input
+                  type="text"
+                  name="photoURL"
+                  className="input"
+                  placeholder="Photo URL..."
+                />
+                {/* Email  */}
+                <label className="label">Your Email</label>
+                <input
+                  type="email"
+                  name="email"
+                  className="input"
+                  placeholder="Your Email..."
+                />
+                {/* Password  */}
+                <label className="label">Password</label>
+                <input
+                  type="password"
+                  name="password"
+                  className="input"
+                  placeholder="******"
+                />
 
-              <button className="btn btn-neutral mt-4">Register</button>
-            </fieldset>
+                <button className="btn btn-neutral mt-4">Register</button>
+              </fieldset>
+            </form>
             <p>
               Already have an account?{" "}
               <Link
@@ -56,7 +91,10 @@ const Register = () => {
             </p>
             <div className="divider text-lg">or</div>
             {/* Google */}
-            <button className="btn bg-white text-black border-[#e5e5e5]">
+            <button
+              onClick={handleGoogleUser}
+              className="btn bg-white text-black border-[#e5e5e5]"
+            >
               <svg
                 aria-label="Google logo"
                 width="16"

@@ -1,7 +1,39 @@
-import React from "react";
+import React, { useContext } from "react";
 import { Link } from "react-router-dom";
+import { toast } from "react-toastify";
+import AuthContext from "../Contexts/AuthContext";
 
 const Login = () => {
+  const { loginWithEmailPass, userWithGoogle, setUser, setLoading } =
+    useContext(AuthContext);
+  const loginhandle = (e) => {
+    e.preventDefault();
+    const form = e.target;
+    const email = form.email.value;
+    const password = form.password.value;
+    console.log({ email, password });
+
+    loginWithEmailPass(email, password)
+      .then((data) => {
+        console.log(data);
+        setUser(data.user);
+        setLoading(false);
+        toast.success("Login successfull !");
+      })
+      .catch((err) => {
+        console.log(err);
+        toast.error(err.message);
+      });
+  };
+
+  const handleGoogleUser = () => {
+    userWithGoogle().then((data) => {
+      console.log(data.user);
+      setUser(data.user);
+      setLoading(false);
+      toast.success("Login successfull !");
+    });
+  };
   return (
     <div>
       <div>
@@ -9,26 +41,28 @@ const Login = () => {
           <div className="card bg-base-100 w-full max-w-sm shrink-0 shadow-2xl">
             <div className="card-body">
               <h2 className="text-center font-semibold text-xl">Login Now</h2>
-              <fieldset className="fieldset">
-                {/* Email  */}
-                <label className="label">Your Email</label>
-                <input
-                  type="email"
-                  name="email"
-                  className="input"
-                  placeholder="Your Email..."
-                />
-                {/* Password  */}
-                <label className="label">Password</label>
-                <input
-                  type="password"
-                  name="password"
-                  className="input"
-                  placeholder="******"
-                />
+              <form onSubmit={loginhandle}>
+                <fieldset className="fieldset">
+                  {/* Email  */}
+                  <label className="label">Your Email</label>
+                  <input
+                    type="email"
+                    name="email"
+                    className="input"
+                    placeholder="Your Email..."
+                  />
+                  {/* Password  */}
+                  <label className="label">Password</label>
+                  <input
+                    type="password"
+                    name="password"
+                    className="input"
+                    placeholder="******"
+                  />
 
-                <button className="btn btn-neutral mt-4">Register</button>
-              </fieldset>
+                  <button className="btn btn-neutral mt-4">Login</button>
+                </fieldset>
+              </form>
 
               <p>
                 Don't have an account?{" "}
@@ -42,7 +76,10 @@ const Login = () => {
 
               <div className="divider text-lg">or</div>
               {/* Google */}
-              <button className="btn bg-white text-black border-[#e5e5e5]">
+              <button
+                onClick={handleGoogleUser}
+                className="btn bg-white text-black border-[#e5e5e5]"
+              >
                 <svg
                   aria-label="Google logo"
                   width="16"
