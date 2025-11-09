@@ -9,6 +9,7 @@ import Register from "../Pages/Register";
 import MyProducts from "../Pages/MyProducts";
 import NewProduct from "../Pages/NewProduct";
 import PrivateRoute from "./PrivateRoute";
+import Details from "../Pages/Details";
 
 const router = createBrowserRouter([
   {
@@ -42,6 +43,12 @@ const router = createBrowserRouter([
       {
         path: "/newProduct",
         element: <NewProduct />,
+      },
+      {
+        path: "/details/:id",
+        loader: ({ params }) =>
+          fetch(`http://localhost:5000/products/${params.id}`),
+        element: <Details />,
       },
     ],
   },

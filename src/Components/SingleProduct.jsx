@@ -1,28 +1,25 @@
 import React from "react";
+import { Link } from "react-router-dom";
 
-const SingleProduct = ({ product }) => {
+const SingleProduct = ({ singleProduct }) => {
+  const { name, rating } = singleProduct;
+
   return (
-    <div className="hover:-translate-y-2 transition-all hover:shadow-2xl">
-      <div className="card w-full bg-base-100 shadow-sm">
-        <figure>
-          <img
-            src="https://img.daisyui.com/images/stock/photo-1606107557195-0e29a4b5b4aa.webp"
-            alt="Shoes"
-          />
-        </figure>
-        <div className="card-body">
-          <h2 className="card-title">
-            Card Title
-            <div className="badge badge-secondary">NEW</div>
-          </h2>
-          <p>
-            A card component has a figure, a body part, and inside body there
-            are title and actions parts
-          </p>
-          <div className="card-actions justify-end">
-            <div className="badge badge-outline">Fashion</div>
-            <div className="badge badge-outline">Products</div>
-          </div>
+    <div className="card bg-base-100 w-96 shadow-sm">
+      <figure className="px-10 pt-10">
+        <img
+          src="https://img.daisyui.com/images/stock/photo-1606107557195-0e29a4b5b4aa.webp"
+          alt="Shoes"
+          className="rounded-xl"
+        />
+      </figure>
+      <div className="card-body items-center text-center">
+        <h2 className="card-title">{name}</h2>
+        <h2 className="card-title"> Product Rating : {rating}</h2>
+        <div className="card-actions">
+          <Link to={`/details/${singleProduct._id}`}>
+            <button className="btn btn-accent">View Deails</button>
+          </Link>
         </div>
       </div>
     </div>
