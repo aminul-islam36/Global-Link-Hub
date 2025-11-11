@@ -1,11 +1,29 @@
-import React from "react";
+import React, { useRef } from "react";
 import { useLoaderData } from "react-router-dom";
+import Swal from "sweetalert2";
 
 const Details = () => {
+  const modalRef = useRef();
   const product = useLoaderData();
   const { name, price, origin_country, image, rating, available_quantity } =
     product;
 
+  const importNowThisProduct = () => {
+    modalRef.current.showModal();
+  };
+
+  const importProductHandle = (e) => {
+    e.preventDefault();
+    modalRef.current.close();
+    Swal.fire({
+      position: "center",
+      icon: "success",
+      title: "successfully Imported !",
+      showConfirmButton: false,
+      timer: 1500,
+    });
+    console.log("kk");
+  };
   return (
     <div>
       <div className="w-11/12 md:w-9/12 mx-auto py-12">
@@ -36,7 +54,12 @@ const Details = () => {
             <p className="text-3xl font-bold text-accent mt-4">${price}</p>
 
             <div className="card-actions mt-6">
-              <button className="btn btn-accent btn-lg w-full">Buy Now</button>
+              <button
+                onClick={importNowThisProduct}
+                className="btn btn-accent btn-lg text-white w-full"
+              >
+                Import Now
+              </button>
             </div>
           </div>
         </div>
@@ -51,6 +74,41 @@ const Details = () => {
             <span className="font-medium">{origin_country}</span>.
           </p>
         </div>
+
+        {/* ---------------------------------------Modal ------------------------------- */}
+
+        <dialog
+          ref={modalRef}
+          id="my_modal_5"
+          className="modal modal-bottom sm:modal-middle"
+        >
+          <div className="modal-box">
+            <div className="card-body p-0">
+              <h2 className="card-title text-2xl font-bold"> {name}</h2>
+              <form onSubmit={importProductHandle}>
+                <fieldset className="fieldset">
+                  <label className="label">
+                    How many product you want to import ?{" "}
+                  </label>
+                  <input
+                    type="number"
+                    required
+                    className="input w-full no-spinner"
+                    placeholder="type product quantity..."
+                  />
+
+                  <button className="btn btn-neutral mt-4">Import</button>
+                </fieldset>
+              </form>
+            </div>
+            <div className="modal-action">
+              <form method="dialog">
+                {/* if there is a button in form, it will close the modal */}
+                <button className="btn">Cencel</button>
+              </form>
+            </div>
+          </div>
+        </dialog>
       </div>
     </div>
   );

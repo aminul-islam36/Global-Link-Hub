@@ -10,6 +10,7 @@ import PrivateRoute from "./PrivateRoute";
 import Details from "../Pages/Details";
 import MyExport from "../Pages/MyExport";
 import AddProduct from "../Pages/AddProduct";
+import MyImport from "../Pages/MyImport";
 
 const router = createBrowserRouter([
   {
@@ -39,6 +40,10 @@ const router = createBrowserRouter([
             <MyExport />
           </PrivateRoute>
         ),
+      },
+      {
+        path: "/myImport",
+        element: <MyImport></MyImport>,
       },
       {
         path: "/addProduct",

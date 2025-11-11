@@ -9,7 +9,7 @@ const Hero = () => {
       className="hero min-h-[600px] bg-no-repeat bg-cover bg-top relative"
     >
       <div className="absolute inset-0 bg-black/60"></div>
-      <div className="hero-content text-center text-neutral-content relative z-10 w-[700px]">
+      <div className="hero-content w-full text-center text-neutral-content relative z-10 lg:w-[700px]">
         <div>
           <h2 className="text-lg text-accent mb-2">Trusted By People</h2>
           <h1 className="mb-5 text-4xl md:text-6xl font-bold leading-tight">

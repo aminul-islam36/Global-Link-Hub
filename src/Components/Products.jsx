@@ -7,11 +7,11 @@ const Products = ({ productsPromise }) => {
   const products = AllProducts.slice(0, 6);
 
   return (
-    <div className="flex flex-col justify-center items-center py-15">
-      <h2 className="text-center text-6xl font-bold py-5 ">
+    <div className="flex flex-col justify-center items-center py-5 lg:py-15">
+      <h2 className="text-center text-4xl lg:text-6xl font-bold py-5 ">
         Our Latest Popular Products
       </h2>
-      <div className="mx-auto w-11/12 grid grid-cols-3 gap-5 py-5 ">
+      <div className="mx-auto w-11/12 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3  gap-3 lg:gap-5 py-5 ">
         {products.map((singleProduct) => (
           <SingleProduct
             key={singleProduct._id}
