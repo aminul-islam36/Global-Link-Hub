@@ -1,8 +1,10 @@
 import React, { useEffect, useState } from "react";
 import SingleProduct from "../Components/SingleProduct";
 import { Helmet } from "react-helmet";
+import Loading from "../Components/Loading";
 
 const AllProducts = () => {
+  const [isLoading, setIsLoading] = useState(true);
   const [products, setProducts] = useState([]);
   const [searchProduct, setSearchProduct] = useState("");
   useEffect(() => {
@@ -11,6 +13,7 @@ const AllProducts = () => {
       .then((data) => {
         console.log(data);
         setProducts(data);
+        setIsLoading(false);
       });
   }, []);
 
@@ -43,7 +46,9 @@ const AllProducts = () => {
         />
       </div>
       <div className=" grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5 py-5 ">
-        {filtaredProducts.length > 0 ? (
+        {isLoading ? (
+          <Loading />
+        ) : filtaredProducts.length > 0 ? (
           filtaredProducts.map((singleProduct) => (
             <SingleProduct
               key={singleProduct._id}

@@ -7,6 +7,7 @@ import { RiDeleteBin6Fill } from "react-icons/ri";
 
 const MyExport = () => {
   const { user } = useContext(AuthContext);
+  const [isLoading, setIsLoading] = useState(true);
   const modalRef = useRef();
   const [products, setProducts] = useState([]);
   const [editOldProduct, setEditOldProduct] = useState();
@@ -15,6 +16,7 @@ const MyExport = () => {
       .then((res) => res.json())
       .then((data) => {
         setProducts(data);
+        setIsLoading(false);
       });
   }, [user.email]);
 
@@ -108,80 +110,85 @@ const MyExport = () => {
       <Helmet>
         <title>My Export</title>
       </Helmet>
-      <div className="overflow-x-auto">
-        {products.length === 0 ? (
-          <div className="text-center py-10">
-            <h2 className="text-2xl font-semibold text-gray-600">
-              No Products Available
-            </h2>
-            <p className="text-gray-500 mt-2">
-              You haven't added any products yet. Add a product to see it here.
-            </p>
-          </div>
-        ) : (
-          <div className="overflow-x-auto">
-            <table className="table">
-              <thead className="text-center">
-                <tr className="text-2xl text-accent">
-                  My All Exports - {products.length}
-                </tr>
-              </thead>
-              <tbody>
-                {/* row 1 */}
-
-                {products.map((product) => (
-                  <tr key={product._id} className="grid grid-cols-2 md:table">
-                    <td className="lg:max-w-2/12 lg:w-full">
-                      <img
-                        className="w-full max-w-[250px] h-auto aspect-2/1 rounded-2xl shadow-sm object-cover"
-                        src={product.image}
-                        alt={product.name}
-                      />
-                    </td>
-                    <td className="lg:max-w-6/12 lg:w-full">
-                      <div>
-                        <h2 className="md:text-lg md:font-semibold">
-                          {product.name}
-                        </h2>
-                        <h3 className="text-sm">
-                          <strong>Origin Country</strong> :{" "}
-                          {product.origin_country}
-                        </h3>
-                        <h3 className="text-sm">
-                          <strong>Price</strong> : {product.price}
-                        </h3>
-                        <h2>
-                          <strong>Available quantity</strong> :{" "}
-                          {product.available_quantity}
-                        </h2>
-                        <h2>
-                          <strong>Rating</strong> : {product.rating}
-                        </h2>
-                      </div>
-                    </td>
-                    <td>
-                      <button
-                        onClick={() => editProductHandle(product)}
-                        className="btn btn-success text-white"
-                      >
-                        Update
-                      </button>
-                    </td>
-                    <td>
-                      <button
-                        onClick={() => deleteProductHandle(product._id)}
-                        className="btn btn-accent text-white"
-                      >
-                        Delete <RiDeleteBin6Fill />
-                      </button>
-                    </td>
+      {isLoading ? (
+        <Loading />
+      ) : (
+        <div className="overflow-x-auto">
+          {products.length === 0 ? (
+            <div className="text-center py-10">
+              <h2 className="text-2xl font-semibold text-gray-600">
+                No Products Available
+              </h2>
+              <p className="text-gray-500 mt-2">
+                You haven't added any products yet. Add a product to see it
+                here.
+              </p>
+            </div>
+          ) : (
+            <div className="overflow-x-auto">
+              <table className="table">
+                <thead className="text-center">
+                  <tr className="text-2xl text-accent">
+                    My All Exports - {products.length}
                   </tr>
-                ))}
-              </tbody>
-            </table>
-          </div>
-        )}
-      </div>
+                </thead>
+                <tbody>
+                  {/* row 1 */}
+
+                  {products.map((product) => (
+                    <tr key={product._id} className="grid grid-cols-2 md:table">
+                      <td className="lg:max-w-2/12 lg:w-full">
+                        <img
+                          className="w-full max-w-[250px] h-auto aspect-2/1 rounded-2xl shadow-sm object-cover"
+                          src={product.image}
+                          alt={product.name}
+                        />
+                      </td>
+                      <td className="lg:max-w-6/12 lg:w-full">
+                        <div>
+                          <h2 className="md:text-lg md:font-semibold">
+                            {product.name}
+                          </h2>
+                          <h3 className="text-sm">
+                            <strong>Origin Country</strong> :{" "}
+                            {product.origin_country}
+                          </h3>
+                          <h3 className="text-sm">
+                            <strong>Price</strong> : {product.price}
+                          </h3>
+                          <h2>
+                            <strong>Available quantity</strong> :{" "}
+                            {product.available_quantity}
+                          </h2>
+                          <h2>
+                            <strong>Rating</strong> : {product.rating}
+                          </h2>
+                        </div>
+                      </td>
+                      <td>
+                        <button
+                          onClick={() => editProductHandle(product)}
+                          className="btn btn-success text-white"
+                        >
+                          Update
+                        </button>
+                      </td>
+                      <td>
+                        <button
+                          onClick={() => deleteProductHandle(product._id)}
+                          className="btn btn-accent text-white"
+                        >
+                          Delete <RiDeleteBin6Fill />
+                        </button>
+                      </td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            </div>
+          )}
+        </div>
+      )}
 
       {/* --------------------------Modal---------------------------------------------  */}
       <dialog
