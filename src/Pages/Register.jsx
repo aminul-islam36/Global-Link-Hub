@@ -2,6 +2,9 @@ import React, { useContext, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import AuthContext from "../Contexts/AuthContext";
 import { toast } from "react-toastify";
+import { updateProfile } from "firebase/auth";
+import { ImUserPlus } from "react-icons/im";
+import { FaUserPlus } from "react-icons/fa";
 
 const Register = () => {
   const [show, setShow] = useState(false);
@@ -16,13 +19,35 @@ const Register = () => {
     const photoURL = form.photoURL.value;
     const email = form.email.value;
     const password = form.password.value;
+    const passwordVelidation = /^(?=.*[a-z])(?=.*[A-Z])[A-Za-z\d@#$%^&*!]{6,}$/;
+    if (!passwordVelidation.test(password)) {
+      toast(
+        "Password must be at least 6 characters, 1 uppercase and 1 lowercase."
+      );
+      return;
+    }
     registerWithEmailPass(email, password)
       .then((data) => {
         console.log(data);
-        setUser(data.user);
-        setLoading(false);
-        navigate("/");
-        toast.success("register successfull !");
+        const user = data.user;
+        updateProfile(user, {
+          displayName: name,
+          photoURL: photoURL,
+        })
+          .then(() => {
+            setUser({
+              ...user,
+              displayName: name,
+              photoURL: photoURL,
+            });
+            toast.success("Register successful !");
+            navigate("/login");
+            setLoading(false);
+          })
+          .catch((error) => {
+            console.error(error);
+            toast.error("Profile update failed");
+          });
       })
       .catch((err) => {
         console.log(err);
@@ -91,8 +116,8 @@ const Register = () => {
                   </span>
                 </div>
 
-                <button className="btn btn-accent text-white mt-4">
-                  Register
+                <button className="btn btn-accent text-white text-lg mt-4">
+                  Register <FaUserPlus />
                 </button>
               </fieldset>
             </form>

@@ -3,6 +3,8 @@ import { Link, NavLink } from "react-router-dom";
 import AuthContext from "../Contexts/AuthContext";
 import { toast } from "react-toastify";
 import Loading from "./Loading";
+import { MdLogin } from "react-icons/md";
+import { FiLogOut } from "react-icons/fi";
 
 const Navber = () => {
   const { setUser, user, logOutFunc, loading } = useContext(AuthContext);
@@ -112,12 +114,12 @@ const Navber = () => {
                 onClick={logOutUserHandle}
                 className="btn btn-accent text-white"
               >
-                Log Out
+                Log Out <FiLogOut className="font-bold" />
               </button>
             </div>
           ) : (
-            <Link to="login" className="btn">
-              Login
+            <Link to="login" className="btn btn-accent text-white">
+              Login <MdLogin />
             </Link>
           )}
         </div>

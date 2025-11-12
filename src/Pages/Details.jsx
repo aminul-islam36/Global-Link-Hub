@@ -2,6 +2,8 @@ import React, { useContext, useRef, useState } from "react";
 import { useLoaderData } from "react-router-dom";
 import Swal from "sweetalert2";
 import AuthContext from "../Contexts/AuthContext";
+import { FaRegClock, FaTruck } from "react-icons/fa";
+import { GoPlusCircle } from "react-icons/go";
 
 const Details = () => {
   const { user } = useContext(AuthContext);
@@ -54,8 +56,8 @@ const Details = () => {
   };
   return (
     <div>
-      <div className="w-11/12 md:w-9/12 mx-auto py-12">
-        <div className="card lg:card-side bg-base-200 shadow-xl">
+      <div className="w-11/12 mx-auto py-12 my-5">
+        <div className="card lg:card-side bg-base-200">
           {/* Product Image */}
           <figure className="lg:w-1/2 p-5">
             <img
@@ -66,8 +68,11 @@ const Details = () => {
           </figure>
 
           {/* Product Details */}
-          <div className="card-body lg:w-1/2 p-8">
-            <h2 className="card-title text-4xl font-bold">{name}</h2>
+          <div className="card-body gap-0 lg:w-1/2 p-0 lg:p-8">
+            <h2 className="text-2xl lg:text-4xl font-bold">{name}</h2>
+            <p className="text-xl font-semibold text-accent mt-2">
+              <strong>Price : </strong>${price}
+            </p>
             <p className="text-gray-600 text-lg mt-2">
               Origin: <span className="font-medium">{origin_country}</span>
             </p>
@@ -79,7 +84,25 @@ const Details = () => {
               Rating:{" "}
               <span className="font-medium text-yellow-500">{rating} ⭐</span>
             </p>
-            <p className="text-3xl font-bold text-accent mt-4">${price}</p>
+            <div className="delivary flex gap-2">
+              {/* Delivery Time */}
+              <div className="flex flex-col items-center text-center p-2 shadow rounded-lg bg-base-100">
+                <FaTruck className="text-accent" size={22} />
+                <h4 className="text-xs mt-1">Fast Delivery</h4>
+              </div>
+
+              {/* Shipping Info */}
+              <div className="flex flex-col items-center text-center p-2 shadow rounded-lg bg-base-100">
+                <FaRegClock className="text-accent" size={22} />
+                <h4 className="text-xs mt-1">Free Shipping</h4>
+              </div>
+
+              {/* Return Policy */}
+              <div className="flex flex-col items-center text-center p-2 shadow rounded-lg bg-base-100">
+                <GoPlusCircle className="text-accent" size={22} />
+                <h4 className="text-xs mt-1">Easy Returns</h4>
+              </div>
+            </div>
 
             <div className="card-actions mt-6">
               <button
@@ -92,14 +115,21 @@ const Details = () => {
           </div>
         </div>
 
-        <div className="mt-10 bg-base-100 p-6 rounded-lg shadow-md">
-          <h3 className="text-2xl font-semibold mb-3">Product Description</h3>
+        <div className="mt-10 bg-base-100 p-0 lg:p-6 rounded-lg">
+          <h3 className="text-2xl font-semibold mb-3 text-accent">
+            Product Description
+          </h3>
           <p className="text-gray-700">
-            Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed
-            condimentum metus ut orci lacinia, nec facilisis sapien ullamcorper.
-            Lorem ipsum dolor sit amet, consectetur adipiscing elit. This
-            product is high quality and comes directly from{" "}
-            <span className="font-medium">{origin_country}</span>.
+            At Global Link Hub, we provide fast, reliable, and secure
+            transportation services designed to meet the needs of modern
+            businesses and individuals. Our priority is ensuring that every
+            shipment reaches its destination on time and in perfect condition.
+            We understand that time and safety are crucial in logistics. why our
+            operations are supported by advanced tracking systems, skilled
+            drivers, and a well-maintained fleet to guarantee smooth and
+            efficient delivery. From local distribution to international
+            freight, we handle each shipment with care and precision.
+            <span className="font-medium"> {origin_country}</span>.
           </p>
         </div>
 

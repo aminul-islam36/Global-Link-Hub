@@ -2,6 +2,7 @@ import React, { useContext, useState } from "react";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 import AuthContext from "../Contexts/AuthContext";
+import { MdLogin } from "react-icons/md";
 
 const Login = () => {
   const [show, setShow] = useState(false);
@@ -41,6 +42,9 @@ const Login = () => {
       toast.success("Login successfull !");
     });
   };
+  const passwordForrget = () => {
+    toast("check your Email");
+  };
   return (
     <div>
       <div>
@@ -76,9 +80,14 @@ const Login = () => {
                       {show ? "Hide" : "Show"}
                     </span>
                   </div>
-
-                  <button className="btn btn-accent text-white mt-4">
-                    Login
+                  <span
+                    onClick={passwordForrget}
+                    className="cursor-pointer mt-1 hover:underline"
+                  >
+                    Forgot password?
+                  </span>
+                  <button className="btn btn-accent text-white text-lg font-normal mt-4">
+                    Login <MdLogin />
                   </button>
                 </fieldset>
               </form>

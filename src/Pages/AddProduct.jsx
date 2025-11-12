@@ -1,6 +1,7 @@
 import React, { useContext } from "react";
 import { toast } from "react-toastify";
 import AuthContext from "../Contexts/AuthContext";
+import { LuCirclePlus } from "react-icons/lu";
 
 const AddProduct = () => {
   const { user } = useContext(AuthContext);
@@ -101,7 +102,7 @@ const AddProduct = () => {
                     />
 
                     <button className="btn btn-accent text-white mt-4">
-                      Add New Product
+                      Add New Product <LuCirclePlus />
                     </button>
                   </fieldset>
                 </form>

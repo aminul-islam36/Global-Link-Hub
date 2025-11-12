@@ -1,8 +1,9 @@
 import React from "react";
+import { IoMdStar } from "react-icons/io";
 import { Link } from "react-router-dom";
 
 const SingleProduct = ({ singleProduct }) => {
-  const { name, image, rating } = singleProduct;
+  const { name, image, rating, available_quantity } = singleProduct;
 
   return (
     <div className="card bg-base-100 w-full shadow-sm">
@@ -13,12 +14,19 @@ const SingleProduct = ({ singleProduct }) => {
           className="rounded-xl w-full h-auto aspect-2/1 object-cover border border-gray-200"
         />
       </figure>
-      <div className="card-body items-center text-center">
-        <h2 className="card-title">{name}</h2>
-        <h2 className="card-title"> Product Rating : {rating}</h2>
+      <div className="card-body">
+        <h2 className="card-title">
+          {name.length > 50 ? name.slice(0, 35) + " ..." : name}
+        </h2>
+        <div className="flex gap-5">
+          <h2 className="flex ">
+            Rating : {rating} <IoMdStar className="text-yellow-400" />
+          </h2>
+          <h2 className="">{available_quantity} Products Available</h2>
+        </div>
         <div className="card-actions">
           <Link to={`/details/${singleProduct._id}`}>
-            <button className="btn btn-accent">View Deails</button>
+            <button className="btn btn-accent text-white">View Deails</button>
           </Link>
         </div>
       </div>
