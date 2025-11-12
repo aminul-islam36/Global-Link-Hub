@@ -9,7 +9,6 @@ const Login = () => {
   const [show, setShow] = useState(false);
   const location = useLocation();
   const navigate = useNavigate();
-  console.log(location);
 
   const { loginWithEmailPass, userWithGoogle, setUser, setLoading } =
     useContext(AuthContext);
@@ -18,25 +17,21 @@ const Login = () => {
     const form = e.target;
     const email = form.email.value;
     const password = form.password.value;
-    console.log({ email, password });
 
     loginWithEmailPass(email, password)
       .then((data) => {
-        console.log(data);
         setUser(data.user);
         setLoading(false);
         navigate(location.pathname || "/");
         toast.success("Login successfull !");
       })
       .catch((err) => {
-        console.log(err);
         toast.error(err.message);
       });
   };
 
   const handleGoogleUser = () => {
     userWithGoogle().then((data) => {
-      console.log(data.user);
       setUser(data.user);
       setLoading(false);
       navigate(location.state || "/");

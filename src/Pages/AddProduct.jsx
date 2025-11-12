@@ -6,7 +6,6 @@ import { Helmet } from "react-helmet";
 
 const AddProduct = () => {
   const { user } = useContext(AuthContext);
-  console.log(user);
 
   const addNewProductHandle = (e) => {
     e.preventDefault();
@@ -28,7 +27,7 @@ const AddProduct = () => {
       seller_email: user.email,
     };
 
-    fetch("http://localhost:5000/products", {
+    fetch("https://global-link-hub.vercel.app/products", {
       method: "POST",
       headers: {
         "content-type": "application/json",
@@ -37,7 +36,6 @@ const AddProduct = () => {
     })
       .then((res) => res.json())
       .then((data) => {
-        console.log("data after added", data);
         if (data.insertedId) {
           form.reset();
           Swal.fire({

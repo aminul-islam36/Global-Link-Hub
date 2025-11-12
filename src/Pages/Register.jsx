@@ -29,7 +29,7 @@ const Register = () => {
     }
     registerWithEmailPass(email, password)
       .then((data) => {
-        console.log(data);
+        // console.log(data);
         const user = data.user;
         updateProfile(user, {
           displayName: name,
@@ -51,14 +51,13 @@ const Register = () => {
           });
       })
       .catch((err) => {
-        console.log(err);
+        // console.log(err);
         toast.error(err.message);
       });
   };
 
   const handleGoogleUser = () => {
     userWithGoogle().then((data) => {
-      console.log(data.user);
       setUser(data.user);
       setLoading(false);
       navigate("/");

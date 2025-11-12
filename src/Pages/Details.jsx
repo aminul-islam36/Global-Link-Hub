@@ -29,23 +29,23 @@ const Details = () => {
     e.preventDefault();
 
     const importQuantity = parseInt(e.target.quantity.value);
-    console.log(importQuantity);
     setImportedQuantity(importQuantity);
 
-    fetch(`http://localhost:5000/products/quantity/${product._id}`, {
-      method: "PUT",
-      headers: {
-        "content-type": "application/json",
-      },
-      body: JSON.stringify({
-        quantity: importQuantity,
-        user_email: user.email,
-      }),
-    })
+    fetch(
+      `https://global-link-hub.vercel.app/products/quantity/${product._id}`,
+      {
+        method: "PUT",
+        headers: {
+          "content-type": "application/json",
+        },
+        body: JSON.stringify({
+          quantity: importQuantity,
+          user_email: user.email,
+        }),
+      }
+    )
       .then((res) => res.json())
-      .then((data) => {
-        console.log("data has been updated", data);
-      });
+      .then(() => {});
 
     modalRef.current.close();
     e.target.reset();

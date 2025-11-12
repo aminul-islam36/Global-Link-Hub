@@ -12,7 +12,7 @@ const MyExport = () => {
   const [products, setProducts] = useState([]);
   const [editOldProduct, setEditOldProduct] = useState();
   useEffect(() => {
-    fetch(`http://localhost:5000/products?email=${user.email}`)
+    fetch(`https://global-link-hub.vercel.app/products?email=${user.email}`)
       .then((res) => res.json())
       .then((data) => {
         setProducts(data);
@@ -31,7 +31,7 @@ const MyExport = () => {
       confirmButtonText: "Yes, delete it!",
     }).then((result) => {
       if (result.isConfirmed) {
-        fetch(`http://localhost:5000/products/${id}`, {
+        fetch(`https://global-link-hub.vercel.app/products/${id}`, {
           method: "DELETE",
         })
           .then((res) => res.json())
@@ -75,13 +75,16 @@ const MyExport = () => {
       buyer_email: user.email,
     };
 
-    fetch(`http://localhost:5000/products/${editOldProduct?._id}`, {
-      method: "PUT",
-      headers: {
-        "content-type": "application/json",
-      },
-      body: JSON.stringify(updateProduct),
-    })
+    fetch(
+      `https://global-link-hub.vercel.app/products/${editOldProduct?._id}`,
+      {
+        method: "PUT",
+        headers: {
+          "content-type": "application/json",
+        },
+        body: JSON.stringify(updateProduct),
+      }
+    )
       .then((res) => res.json())
       .then((data) => {
         if (data.modifiedCount) {
@@ -101,9 +104,7 @@ const MyExport = () => {
           timer: 1500,
         });
         modalRef.current.close();
-        console.log("data Updated ", data);
       });
-    console.log(updateProduct);
   };
   return (
     <div className="w-11/12 mx-auto pt-5">

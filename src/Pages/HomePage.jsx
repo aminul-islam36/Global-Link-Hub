@@ -4,9 +4,9 @@ import Products from "../Components/Products";
 import TransportationModes from "../Components/TransportationModes ";
 import ContactUS from "../Components/ContactUS";
 
-const productsPromise = fetch("http://localhost:5000/products").then((res) =>
-  res.json()
-);
+const productsPromise = fetch(
+  "https://global-link-hub.vercel.app/products"
+).then((res) => res.json());
 
 const HomePage = () => {
   return (

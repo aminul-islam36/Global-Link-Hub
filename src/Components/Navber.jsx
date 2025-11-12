@@ -45,7 +45,7 @@ const Navber = () => {
         toast.success("logOut successfull");
         setUser(null);
       })
-      .catch((err) => console.log(err));
+      .catch((err) => toast(err.message));
   };
 
   return (

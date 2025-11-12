@@ -8,10 +8,9 @@ const AllProducts = () => {
   const [products, setProducts] = useState([]);
   const [searchProduct, setSearchProduct] = useState("");
   useEffect(() => {
-    fetch("http://localhost:5000/products")
+    fetch("https://global-link-hub.vercel.app/products")
       .then((res) => res.json())
       .then((data) => {
-        console.log(data);
         setProducts(data);
         setIsLoading(false);
       });
@@ -19,7 +18,6 @@ const AllProducts = () => {
 
   const searchValue = (e) => {
     const searchValue = e.target.value;
-    console.log(searchValue);
     setSearchProduct(searchValue);
   };
 

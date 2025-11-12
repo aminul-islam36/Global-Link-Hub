@@ -4,16 +4,9 @@ import { Link, useLoaderData } from "react-router-dom";
 const ViewDetails = () => {
   const product = useLoaderData();
 
-  const {
-    user_email,
-    imported_quantity,
-    origin_country,
-    image,
-    rating,
-    price,
-    name,
-  } = product;
-  console.log(product);
+  const { imported_quantity, origin_country, image, rating, price, name } =
+    product;
+  // console.log(product);
 
   return (
     <div className="mx-auto w-11/12">

@@ -1,6 +1,5 @@
 import React from "react";
 import { createBrowserRouter } from "react-router";
-import { RouterProvider } from "react-router/dom";
 import RootLayout from "../Layouts/RootLayout";
 import HomePage from "../Pages/HomePage";
 import AllProducts from "../Pages/AllProducts";
@@ -59,13 +58,13 @@ const router = createBrowserRouter([
       {
         path: "/viewDetails/:id",
         loader: ({ params }) =>
-          fetch(`http://localhost:5000/importedProducts/${params.id}`),
+          fetch(`https://global-link-hub.vercel.app/products/${params.id}`),
         element: <ViewDetails></ViewDetails>,
       },
       {
         path: "/details/:id",
         loader: ({ params }) =>
-          fetch(`http://localhost:5000/products/${params.id}`),
+          fetch(`https://global-link-hub.vercel.app/products/${params.id}`),
         element: (
           <PrivateRoute>
             <Details />
