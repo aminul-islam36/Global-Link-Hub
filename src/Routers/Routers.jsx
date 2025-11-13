@@ -16,7 +16,6 @@ import ErrorPage from "../Pages/ErrorPage";
 const router = createBrowserRouter([
   {
     path: "/",
-    errorElement: <ErrorPage />,
     element: <RootLayout />,
     children: [
       {
@@ -45,13 +44,17 @@ const router = createBrowserRouter([
       },
       {
         path: "/myImport",
-        element: <MyImport></MyImport>,
+        element: (
+          <PrivateRoute>
+            <MyImport />
+          </PrivateRoute>
+        ),
       },
       {
         path: "/addProduct",
         element: (
           <PrivateRoute>
-            <AddProduct />,
+            <AddProduct />
           </PrivateRoute>
         ),
       },
@@ -70,6 +73,10 @@ const router = createBrowserRouter([
             <Details />
           </PrivateRoute>
         ),
+      },
+      {
+        path: "*",
+        element: <ErrorPage />,
       },
     ],
   },
