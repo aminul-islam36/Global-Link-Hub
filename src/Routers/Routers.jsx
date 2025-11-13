@@ -12,11 +12,12 @@ import AddProduct from "../Pages/AddProduct";
 import MyImport from "../Pages/MyImport";
 import ViewDetails from "../Pages/ViewDetails";
 import ErrorPage from "../Pages/ErrorPage";
+import Loading from "../Components/Loading";
 
 const router = createBrowserRouter([
   {
     path: "/",
-    errorElement: <ErrorPage />,
+    errorElement: <Loading />,
     element: <RootLayout />,
     children: [
       {

@@ -1,16 +1,28 @@
-# React + Vite
+# GlobalLink Hub
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+GlobalLink Hub is a modern web application for managing imports and exports of products. It allows users to view, add, and manage products with a responsive and interactive interface.
 
-Currently, two official plugins are available:
+# Live Website & Repositories
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) (or [oxc](https://oxc.rs) when used in [rolldown-vite](https://vite.dev/guide/rolldown)) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+Live Website : https://global-link-hub.web.app/
+Frontend Repo : https://github.com/AMINBD2022/Global-Link-Hub.git
+Backend Repo : https://github.com/AMINBD2022/Global-Link-Hub-server.git
+Server Link : https://global-link-hub.vercel.app/
 
-## React Compiler
+## Features
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+User authentication (Email/Password & Google Sign-In) using Firebase
+View, add, import, and delete products
+Product detail pages with private routes
+Responsive design for desktop and mobile
+Light/Dark theme toggle
+Loading state until server/API is ready
+Interactive UI with **React Icons**, **Swiper**, and **SweetAlert2**
+SEO support with **React Helmet**
+Centralized loader to handle API/server offline scenarios
 
-## Expanding the ESLint configuration
+## Technologies Used
 
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
+**Frontend:** React 19, Vite 7, TailwindCSS 4, DaisyUI 5, Firebase 12, React Router 7
+**Backend:** Node.js, Express.js, MongoDB, dotenv, CORS
+**UI & Utilities:** React Icons, React Helmet, SweetAlert2, React Toastify, Swiper
