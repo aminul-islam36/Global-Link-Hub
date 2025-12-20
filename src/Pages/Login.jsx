@@ -1,17 +1,16 @@
-import React, { useContext, useState } from "react";
+import React, { useState } from "react";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
-import AuthContext from "../Contexts/AuthContext";
 import { MdLogin } from "react-icons/md";
-import { Helmet } from "react-helmet";
+import useAuth from "../hooks/useAuth";
+import { Helmet } from "react-helmet-async";
 
 const Login = () => {
   const [show, setShow] = useState(false);
   const location = useLocation();
   const navigate = useNavigate();
 
-  const { loginWithEmailPass, userWithGoogle, setUser, setLoading } =
-    useContext(AuthContext);
+  const { loginWithEmailPass, userWithGoogle } = useAuth();
   const loginHandle = (e) => {
     e.preventDefault();
     const form = e.target;
@@ -19,10 +18,8 @@ const Login = () => {
     const password = form.password.value;
 
     loginWithEmailPass(email, password)
-      .then((data) => {
-        setUser(data.user);
-        setLoading(false);
-        navigate(location.pathname || "/");
+      .then(() => {
+        navigate(location.state || "/");
         toast.success("Login successfull !");
       })
       .catch((err) => {
@@ -31,9 +28,7 @@ const Login = () => {
   };
 
   const handleGoogleUser = () => {
-    userWithGoogle().then((data) => {
-      setUser(data.user);
-      setLoading(false);
+    userWithGoogle().then(() => {
       navigate(location.state || "/");
       toast.success("Login successfull !");
     });

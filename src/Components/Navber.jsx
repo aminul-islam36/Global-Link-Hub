@@ -7,7 +7,7 @@ import { MdLogin } from "react-icons/md";
 import { FiLogOut } from "react-icons/fi";
 
 const Navber = () => {
-  const { setUser, user, logOutFunc, loading } = useContext(AuthContext);
+  const { user, logOutFunc, loading } = useContext(AuthContext);
 
   const links = (
     <>
@@ -43,7 +43,6 @@ const Navber = () => {
     logOutFunc()
       .then(() => {
         toast.success("logOut successfull");
-        setUser(null);
       })
       .catch((err) => toast(err.message));
   };

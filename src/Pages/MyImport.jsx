@@ -1,28 +1,30 @@
-import React, { useContext, useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import Swal from "sweetalert2";
-import AuthContext from "../Contexts/AuthContext";
 import { Link } from "react-router-dom";
-import { Helmet } from "react-helmet";
 import { IoIosRemoveCircle } from "react-icons/io";
 import Loading from "../Components/Loading";
+import useAuth from "../hooks/useAuth";
+import useAxios from "../hooks/useAxios";
+import { Helmet } from "react-helmet-async";
 
 const MyImport = () => {
   const [isLoading, setIsLoading] = useState(true);
-  const { user } = useContext(AuthContext);
+  const { user } = useAuth();
+  const axiosURL = useAxios();
   const [products, setProducts] = useState([]);
   useEffect(() => {
-    fetch(
-      `https://global-link-hub.vercel.app/importedProducts?email=${user?.email}`
-    )
-      .then((res) => res.json())
-      .then((data) => {
-        setProducts(data);
-        setIsLoading(false);
-      });
-  }, [user?.email]);
+    if (!user?.email) return;
 
-  const deleteProductHandle = (id) => {
-    Swal.fire({
+    const getProducts = async () => {
+      const res = await axiosURL.get(`/importedProducts?email=${user.email}`);
+      setProducts(res.data);
+      setIsLoading(false);
+    };
+    getProducts();
+  }, [user?.email, axiosURL]);
+
+  const deleteProductHandle = async (id) => {
+    const result = await Swal.fire({
       title: "Are you sure?",
       text: "You won't be able to revert this!",
       icon: "warning",
@@ -30,25 +32,19 @@ const MyImport = () => {
       confirmButtonColor: "#3085d6",
       cancelButtonColor: "#d33",
       confirmButtonText: "Yes, Remove it!",
-    }).then((result) => {
-      if (result.isConfirmed) {
-        fetch(`https://global-link-hub.vercel.app/importedProducts/${id}`, {
-          method: "DELETE",
-        })
-          .then((res) => res.json())
-          .then((data) => {
-            if (data.deletedCount) {
-              const reminingProducts = products.filter((p) => p._id != id);
-              setProducts(reminingProducts);
-              Swal.fire({
-                title: "Removed!",
-                text: "Your Product has been Removed.",
-                icon: "success",
-              });
-            }
-          });
-      }
     });
+    if (result.isConfirmed) {
+      const res = await axiosURL.delete(`importedProducts/${id}`);
+      if (res.data.deletedCount) {
+        const reminingProducts = products.filter((p) => p._id != id);
+        setProducts(reminingProducts);
+        Swal.fire({
+          title: "Removed!",
+          text: "Your Product has been Removed.",
+          icon: "success",
+        });
+      }
+    }
   };
 
   return (
@@ -75,7 +71,7 @@ const MyImport = () => {
               <table className="table">
                 <thead className="text-center">
                   <tr className="text-2xl text-accent">
-                    My All Imports - {products.length}
+                    <th colSpan="4">My All Imports - {products.length}</th>
                   </tr>
                 </thead>
                 <tbody>

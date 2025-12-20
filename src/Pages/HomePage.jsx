@@ -3,6 +3,7 @@ import Hero from "../Components/Hero";
 import Products from "../Components/Products";
 import TransportationModes from "../Components/TransportationModes ";
 import ContactUS from "../Components/ContactUS";
+import Loader from "../Components/Loader";
 
 const productsPromise = fetch(
   "https://global-link-hub.vercel.app/products"

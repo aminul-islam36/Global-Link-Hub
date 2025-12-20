@@ -2,8 +2,11 @@ import React, { useEffect, useState } from "react";
 import Navber from "../Components/Navber";
 import { Outlet } from "react-router-dom";
 import Footer from "../Components/Footer";
+import useAuth from "../hooks/useAuth";
+import Loader from "../Components/Loader";
 
 const RootLayout = () => {
+  const { loading } = useAuth();
   const [theme, setTheme] = useState("light");
 
   const themeChangeHandle = () => {
@@ -16,6 +19,9 @@ const RootLayout = () => {
     document.documentElement.setAttribute("data-theme", theme);
   }, [theme]);
 
+  if (loading) {
+    return <Loader />;
+  }
   return (
     <div className="flex flex-col min-h-screen justify-between bg-base-200">
       <Navber />

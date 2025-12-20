@@ -1,13 +1,14 @@
-import React, { useContext } from "react";
-import AuthContext from "../Contexts/AuthContext";
 import { LuCirclePlus } from "react-icons/lu";
 import Swal from "sweetalert2";
-import { Helmet } from "react-helmet";
+import useAxios from "../hooks/useAxios";
+import useAuth from "../hooks/useAuth";
+import { Helmet } from "react-helmet-async";
 
 const AddProduct = () => {
-  const { user } = useContext(AuthContext);
+  const { user } = useAuth();
+  const axiosURL = useAxios();
 
-  const addNewProductHandle = (e) => {
+  const addNewProductHandle = async (e) => {
     e.preventDefault();
     const form = e.target;
     const productName = form.productName.value;
@@ -27,26 +28,17 @@ const AddProduct = () => {
       seller_email: user.email,
     };
 
-    fetch("https://global-link-hub.vercel.app/products", {
-      method: "POST",
-      headers: {
-        "content-type": "application/json",
-      },
-      body: JSON.stringify(newProduct),
-    })
-      .then((res) => res.json())
-      .then((data) => {
-        if (data.insertedId) {
-          form.reset();
-          Swal.fire({
-            position: "center",
-            icon: "success",
-            title: "Your product has been added",
-            showConfirmButton: false,
-            timer: 1500,
-          });
-        }
+    const res = await axiosURL.post("/products", newProduct);
+    if (res.data.insertedId) {
+      form.reset();
+      Swal.fire({
+        position: "center",
+        icon: "success",
+        title: "Your product has been added",
+        showConfirmButton: false,
+        timer: 1500,
       });
+    }
   };
   return (
     <div className="hero bg-base-200 py-5 lg:py-20">

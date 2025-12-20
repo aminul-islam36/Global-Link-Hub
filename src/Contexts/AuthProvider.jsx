@@ -60,9 +60,7 @@ const AuthProvider = ({ children }) => {
     registerWithEmailPass,
     loginWithEmailPass,
     logOutFunc,
-    setUser,
     user,
-    setLoading,
     loading,
   };
   return (

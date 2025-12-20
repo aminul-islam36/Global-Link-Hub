@@ -1,14 +1,16 @@
-import React, { useContext, useRef, useState } from "react";
+import React, { useRef, useState } from "react";
 import { useLoaderData } from "react-router-dom";
 import Swal from "sweetalert2";
-import AuthContext from "../Contexts/AuthContext";
 import { FaRegClock, FaTruck } from "react-icons/fa";
 import { GoPlusCircle } from "react-icons/go";
-import { Helmet } from "react-helmet";
+import useAxios from "../hooks/useAxios";
+import useAuth from "../hooks/useAuth";
+import { Helmet } from "react-helmet-async";
 
 const Details = () => {
-  const { user } = useContext(AuthContext);
   const modalRef = useRef();
+  const { user } = useAuth();
+  const axiosURL = useAxios();
   const product = useLoaderData();
   const { name, price, origin_country, image, rating, available_quantity } =
     product;
@@ -25,30 +27,15 @@ const Details = () => {
 
   // ------------------------------------Import Product Quantity Function --------------------------------------
 
-  const importProductHandle = (e) => {
+  const importProductHandle = async (e) => {
     e.preventDefault();
-
     const importQuantity = parseInt(e.target.quantity.value);
     setImportedQuantity(importQuantity);
-
-    fetch(
-      `https://global-link-hub.vercel.app/products/quantity/${product._id}`,
-      {
-        method: "PUT",
-        headers: {
-          "content-type": "application/json",
-        },
-        body: JSON.stringify({
-          quantity: importQuantity,
-          user_email: user.email,
-        }),
-      }
-    )
-      .then((res) => res.json())
-      .then(() => {});
-
-    modalRef.current.close();
-    e.target.reset();
+    await axiosURL.put(`/products/quantity/${product._id}`, {
+      quantity: importQuantity,
+      user_email: user.email,
+    });
+    setAvailableQuantity((prev) => prev - importQuantity);
     Swal.fire({
       position: "center",
       icon: "success",
@@ -56,8 +43,8 @@ const Details = () => {
       showConfirmButton: false,
       timer: 3000,
     });
-    const reminingQuantity = (product.available_quantity -= importQuantity);
-    setAvailableQuantity(reminingQuantity);
+    modalRef.current.close();
+    e.target.reset();
   };
   return (
     <div>

@@ -1,17 +1,16 @@
-import React, { useContext, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
-import AuthContext from "../Contexts/AuthContext";
 import { toast } from "react-toastify";
 import { updateProfile } from "firebase/auth";
-import { ImUserPlus } from "react-icons/im";
 import { FaUserPlus } from "react-icons/fa";
-import { Helmet } from "react-helmet";
+import useAuth from "../hooks/useAuth";
+import { useState } from "react";
+import { Helmet } from "react-helmet-async";
 
 const Register = () => {
   const [show, setShow] = useState(false);
   const navigate = useNavigate();
-  const { registerWithEmailPass, userWithGoogle, setUser, setLoading } =
-    useContext(AuthContext);
+
+  const { registerWithEmailPass, userWithGoogle } = useAuth();
 
   const handleNewUser = (e) => {
     e.preventDefault();
@@ -36,14 +35,8 @@ const Register = () => {
           photoURL: photoURL,
         })
           .then(() => {
-            setUser({
-              ...user,
-              displayName: name,
-              photoURL: photoURL,
-            });
             toast.success("Register successful !");
-            navigate("/login");
-            setLoading(false);
+            navigate("/");
           })
           .catch((error) => {
             console.error(error);
@@ -57,12 +50,27 @@ const Register = () => {
   };
 
   const handleGoogleUser = () => {
-    userWithGoogle().then((data) => {
-      setUser(data.user);
-      setLoading(false);
-      navigate("/");
-      toast.success("register successfull !");
-    });
+    userWithGoogle()
+      .then((data) => {
+        // console.log(data);
+        const user = data.user;
+        updateProfile(user, {
+          displayName: user.displayName,
+          photoURL: user.photoURL,
+        })
+          .then(() => {
+            toast.success("Register successful !");
+            navigate("/");
+          })
+          .catch((error) => {
+            console.error(error);
+            toast.error("Profile update failed");
+          });
+      })
+      .catch((err) => {
+        // console.log(err);
+        toast.error(err.message);
+      });
   };
 
   return (

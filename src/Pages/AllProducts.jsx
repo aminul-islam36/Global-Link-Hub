@@ -1,20 +1,20 @@
 import React, { useEffect, useState } from "react";
 import SingleProduct from "../Components/SingleProduct";
-import { Helmet } from "react-helmet";
-import Loading from "../Components/Loading";
+import useAxios from "../hooks/useAxios";
+import Loader from "../Components/Loader";
+import { Helmet } from "react-helmet-async";
 
 const AllProducts = () => {
+  const axiosURL = useAxios();
   const [isLoading, setIsLoading] = useState(true);
   const [products, setProducts] = useState([]);
   const [searchProduct, setSearchProduct] = useState("");
   useEffect(() => {
-    fetch("https://global-link-hub.vercel.app/products")
-      .then((res) => res.json())
-      .then((data) => {
-        setProducts(data);
-        setIsLoading(false);
-      });
-  }, []);
+    axiosURL.get("products").then((res) => {
+      setProducts(res.data);
+      setIsLoading(false);
+    });
+  }, [axiosURL]);
 
   const searchValue = (e) => {
     const searchValue = e.target.value;
@@ -45,7 +45,7 @@ const AllProducts = () => {
       </div>
       <div className=" grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5 py-5 ">
         {isLoading ? (
-          <Loading />
+          <Loader />
         ) : filtaredProducts.length > 0 ? (
           filtaredProducts.map((singleProduct) => (
             <SingleProduct

@@ -1,27 +1,28 @@
-import React, { useContext, useEffect, useRef, useState } from "react";
-import AuthContext from "../Contexts/AuthContext";
+import React, { useEffect, useRef, useState } from "react";
 import Loading from "../Components/Loading";
 import Swal from "sweetalert2";
-import { Helmet } from "react-helmet";
 import { RiDeleteBin6Fill } from "react-icons/ri";
+import useAuth from "../hooks/useAuth";
+import useAxios from "../hooks/useAxios";
+import { Helmet } from "react-helmet-async";
 
 const MyExport = () => {
-  const { user } = useContext(AuthContext);
   const [isLoading, setIsLoading] = useState(true);
   const modalRef = useRef();
+  const { user } = useAuth();
+  const axiosURL = useAxios();
   const [products, setProducts] = useState([]);
   const [editOldProduct, setEditOldProduct] = useState();
   useEffect(() => {
-    fetch(`https://global-link-hub.vercel.app/products?email=${user.email}`)
-      .then((res) => res.json())
-      .then((data) => {
-        setProducts(data);
-        setIsLoading(false);
-      });
-  }, [user.email]);
+    if (!user?.email) return;
+    axiosURL.get(`/products?email=${user.email}`).then((res) => {
+      setProducts(res.data);
+      setIsLoading(false);
+    });
+  }, [user.email, axiosURL]);
 
-  const deleteProductHandle = (id) => {
-    Swal.fire({
+  const deleteProductHandle = async (id) => {
+    const result = await Swal.fire({
       title: "Are you sure?",
       text: "You won't be able to revert this!",
       icon: "warning",
@@ -29,25 +30,19 @@ const MyExport = () => {
       confirmButtonColor: "#3085d6",
       cancelButtonColor: "#d33",
       confirmButtonText: "Yes, delete it!",
-    }).then((result) => {
-      if (result.isConfirmed) {
-        fetch(`https://global-link-hub.vercel.app/products/${id}`, {
-          method: "DELETE",
-        })
-          .then((res) => res.json())
-          .then((data) => {
-            if (data.deletedCount) {
-              const reminingProducts = products.filter((p) => p._id != id);
-              setProducts(reminingProducts);
-              Swal.fire({
-                title: "Deleted!",
-                text: "Your Product has been deleted.",
-                icon: "success",
-              });
-            }
-          });
-      }
     });
+    if (result.isConfirmed) {
+      const res = await axiosURL.delete(`products/${id}`);
+      if (res.data.deletedCount) {
+        const reminingProducts = products.filter((p) => p._id != id);
+        setProducts(reminingProducts);
+        Swal.fire({
+          title: "Deleted!",
+          text: "Your Product has been deleted.",
+          icon: "success",
+        });
+      }
+    }
   };
 
   const editProductHandle = (product) => {
@@ -55,7 +50,7 @@ const MyExport = () => {
     setEditOldProduct(product);
   };
 
-  const updateProductHandle = (e) => {
+  const updateProductHandle = async (e) => {
     e.preventDefault();
     const form = e.target;
     const productName = form.productName.value;
@@ -75,38 +70,28 @@ const MyExport = () => {
       buyer_email: user.email,
     };
 
-    fetch(
-      `https://global-link-hub.vercel.app/products/${editOldProduct?._id}`,
-      {
-        method: "PUT",
-        headers: {
-          "content-type": "application/json",
-        },
-        body: JSON.stringify(updateProduct),
-      }
-    )
-      .then((res) => res.json())
-      .then((data) => {
-        if (data.modifiedCount) {
-          const updatedProducts = products.map((product) =>
-            product._id === editOldProduct._id
-              ? { ...product, ...updateProduct }
-              : product
-          );
-          setProducts(updatedProducts);
-        }
-
-        Swal.fire({
-          position: "center",
-          icon: "success",
-          title: "Your work has been saved",
-          showConfirmButton: false,
-          timer: 1500,
-        });
-        modalRef.current.close();
-      });
+    const res = await axiosURL.put(
+      `/products/${editOldProduct?._id}`,
+      updateProduct
+    );
+    if (res.data.modifiedCount) {
+      const updatedProducts = products.map((product) =>
+        product._id === editOldProduct._id
+          ? { ...product, ...updateProduct }
+          : product
+      );
+      setProducts(updatedProducts);
+    }
+    Swal.fire({
+      position: "center",
+      icon: "success",
+      title: "Your work has been saved",
+      showConfirmButton: false,
+      timer: 1500,
+    });
+    modalRef.current.close();
   };
-
+  // DownLoad CSV
   const csvDownloadHandle = () => {
     // --------------CSV header----------------
     const headers = ["Name", "Price", "Quantity", "Origin Country", "Rating"];
