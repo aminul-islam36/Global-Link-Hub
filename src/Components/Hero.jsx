@@ -5,6 +5,9 @@ import BgImage from "../assets/Hero.jpg";
 const Hero = () => {
   return (
     <div
+      data-aos="fade-down"
+      data-aos-duration="500"
+      data-aos-offset="100"
       style={{ backgroundImage: `url(${BgImage})` }}
       className="hero min-h-[600px] bg-no-repeat bg-cover bg-top relative"
     >

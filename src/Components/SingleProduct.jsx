@@ -7,7 +7,7 @@ const SingleProduct = ({ singleProduct }) => {
   const { name, image, price, available_quantity } = singleProduct;
 
   return (
-    <>
+    <div data-aos="fade-up" data-aos-offset="200" data-aos-duration="500">
       {singleProduct ? (
         <div className="card bg-base-100 w-full border border-gray-200 rounded-2xl hover:shadow-lg transition-shadow duration-300">
           <figure className="px-10 pt-10">
@@ -37,7 +37,7 @@ const SingleProduct = ({ singleProduct }) => {
       ) : (
         <Loading />
       )}
-    </>
+    </div>
   );
 };
 

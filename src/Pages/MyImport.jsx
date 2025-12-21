@@ -48,7 +48,7 @@ const MyImport = () => {
   };
 
   return (
-    <div className="w-11/12 mx-auto pt-5">
+    <div className="w-11/12 mx-auto pt-5 overflow-x-hidden">
       <Helmet>
         <title>My Import</title>
       </Helmet>
@@ -78,51 +78,60 @@ const MyImport = () => {
                   {/* row 1 */}
 
                   {products.map((product) => (
-                    <tr key={product._id} className="grid grid-cols-2 md:table">
-                      <td className="lg:max-w-2/12 lg:w-full">
-                        <img
-                          className="w-full max-w-[250px] h-auto aspect-2/1 rounded-2xl shadow-sm object-cover"
-                          src={product.image}
-                          alt={product.name}
-                        />
-                      </td>
-                      <td className="lg:max-w-6/12 lg:w-full">
-                        <div>
-                          <h2 className="font-bold md:text-lg">
-                            {product.name}
-                          </h2>
-                          <h2 className="text-sm">
-                            <strong>Origin Country</strong> :
-                            {product.origin_country}
-                          </h2>
-                          <h2 className="flex gap-4 text-sm">
-                            <strong>Price</strong> : {product.price}
-                          </h2>
-                          <h2>
-                            <strong>Available quantity</strong> :
-                            {product.imported_quantity}
-                          </h2>
-                          <h2>
-                            <strong>Rating</strong> : {product.rating}
-                          </h2>
-                        </div>
-                      </td>
-                      <td>
-                        <Link to={`/viewDetails/${product._id}`}>
-                          <button className="btn btn-success text-white">
-                            View Deails
+                    <div
+                      data-aos="fade-up"
+                      data-aos-duration="500"
+                      data-aos-offset="500"
+                    >
+                      <tr
+                        key={product._id}
+                        className="grid grid-cols-2 md:table"
+                      >
+                        <td className="lg:max-w-2/12 lg:w-full">
+                          <img
+                            className="w-full max-w-[250px] h-auto aspect-2/1 rounded-2xl shadow-sm object-cover"
+                            src={product.image}
+                            alt={product.name}
+                          />
+                        </td>
+                        <td className="lg:max-w-6/12 lg:w-full">
+                          <div>
+                            <h2 className="font-bold md:text-lg">
+                              {product.name}
+                            </h2>
+                            <h2 className="text-sm">
+                              <strong>Origin Country</strong> :
+                              {product.origin_country}
+                            </h2>
+                            <h2 className="flex gap-4 text-sm">
+                              <strong>Price</strong> : {product.price}
+                            </h2>
+                            <h2>
+                              <strong>Available quantity</strong> :
+                              {product.imported_quantity}
+                            </h2>
+                            <h2>
+                              <strong>Rating</strong> : {product.rating}
+                            </h2>
+                          </div>
+                        </td>
+                        <td>
+                          <Link to={`/viewDetails/${product._id}`}>
+                            <button className="btn btn-success text-white">
+                              View Deails
+                            </button>
+                          </Link>
+                        </td>
+                        <td>
+                          <button
+                            onClick={() => deleteProductHandle(product._id)}
+                            className="btn btn-accent text-white"
+                          >
+                            Remove <IoIosRemoveCircle />
                           </button>
-                        </Link>
-                      </td>
-                      <td>
-                        <button
-                          onClick={() => deleteProductHandle(product._id)}
-                          className="btn btn-accent text-white"
-                        >
-                          Remove <IoIosRemoveCircle />
-                        </button>
-                      </td>
-                    </tr>
+                        </td>
+                      </tr>
+                    </div>
                   ))}
                 </tbody>
               </table>

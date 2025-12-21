@@ -148,7 +148,7 @@ const MyExport = () => {
               </p>
             </div>
           ) : (
-            <div className="overflow-x-auto">
+            <div className="overflow-x-auto overflow-y-hidden">
               <div className="flex justify-between py-5  border-b border-b-accent mb-5 ">
                 <h2 className="text-2xl text-accent">
                   My All Exports - {products.length}
@@ -166,7 +166,13 @@ const MyExport = () => {
                   {/* row 1 */}
 
                   {products.map((product) => (
-                    <tr key={product._id} className="grid grid-cols-2 md:table">
+                    <tr
+                      data-aos="fade-up"
+                      data-aos-duration="500"
+                      data-aos-offset="100"
+                      key={product._id}
+                      className="grid grid-cols-2 md:table"
+                    >
                       <td className="lg:max-w-2/12 lg:w-full">
                         <img
                           className="w-full max-w-[250px] h-auto aspect-2/1 rounded-2xl shadow-sm object-cover"
