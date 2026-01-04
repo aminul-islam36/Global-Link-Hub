@@ -77,7 +77,13 @@ const MyImport = () => {
           <table className="table">
             <tbody>
               {products.map((product) => (
-                <tr key={product._id} className="grid grid-cols-2 md:table">
+                <tr
+                  key={product._id}
+                  className="grid grid-cols-2 md:table"
+                  data-aos="flip-up"
+                  data-aos-duration="500"
+                  data-aos-offset="100"
+                >
                   <td className="lg:max-w-2/12 lg:w-full">
                     <img
                       className="w-full max-w-[250px] h-auto aspect-2/1 rounded-2xl shadow-sm object-cover"

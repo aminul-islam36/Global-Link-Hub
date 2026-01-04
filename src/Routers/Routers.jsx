@@ -8,7 +8,7 @@ import Register from "../Pages/Register";
 import PrivateRoute from "./PrivateRoute";
 import Details from "../Pages/Details";
 import MyExport from "../Pages/MyExport";
-import AddProduct from "../Pages/AddProduct";
+import AddProduct from "../Pages/addProductPage/AddProduct";
 import MyImport from "../Pages/MyImport";
 import ErrorPage from "../Pages/ErrorPage";
 import Blogs from "../Pages/Blogs";

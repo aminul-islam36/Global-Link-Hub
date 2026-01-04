@@ -140,10 +140,10 @@ const Details = () => {
             {/* Price */}
             <div className="mt-5 flex gap-3 items-center">
               <span className="text-xl lg:text-3xl font-bold text-accent">
-                ৳{product.price}
+                ${product.price}
               </span>
               <span className="line-through opacity-60">
-                ৳{(product.price * 1.1).toFixed(2)}
+                ${(product.price * 1.1).toFixed(2)}
               </span>
             </div>
 
