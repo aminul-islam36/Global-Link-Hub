@@ -40,7 +40,7 @@ const AllProducts = () => {
     return <p className="text-center text-red-500">Something went wrong</p>;
 
   return (
-    <div className="max-w-7xl mx-auto">
+    <div className="max-w-7xl mx-auto py-5 px-4">
       <Helmet>
         <title>All Products</title>
       </Helmet>
